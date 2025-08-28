@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 interface FeatureCardProps {
   icon: LucideIcon;
@@ -22,6 +23,8 @@ export const FeatureCard = ({
   comingSoon = false,
   href
 }: FeatureCardProps) => {
+  const { t } = useTranslation();
+  
   return (
     <div className={cn(
       "relative group p-8 rounded-3xl shadow-soft hover:shadow-magical transition-gentle bg-card/80 backdrop-blur-sm border border-border/50",
@@ -57,7 +60,7 @@ export const FeatureCard = ({
               variant="ghost" 
               className="group-hover:bg-primary/10 transition-gentle"
             >
-              Explore
+              {t('common.explore')}
             </Button>
           </Link>
         ) : (
@@ -66,7 +69,7 @@ export const FeatureCard = ({
             className="group-hover:bg-primary/10 transition-gentle"
             disabled={comingSoon}
           >
-            {comingSoon ? "Coming Soon" : "Explore"}
+            {comingSoon ? t('common.comingSoon') : t('common.explore')}
           </Button>
         )}
       </div>

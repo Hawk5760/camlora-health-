@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, Volume2 } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 interface SoundTrack {
   id: string;
@@ -54,6 +55,46 @@ export const SoundscapePage = () => {
   const [playingTracks, setPlayingTracks] = useState<Set<string>>(new Set());
   const [volumes, setVolumes] = useState<Record<string, number>>({});
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
+  const { t } = useTranslation();
+
+  const soundTracks: SoundTrack[] = [
+    {
+      id: "rain",
+      name: t('pages.sounds.gentleRain'),
+      audioUrl: "https://www.soundjay.com/misc/sounds/rain-01.wav",
+      icon: "🌧️"
+    },
+    {
+      id: "ocean",
+      name: t('pages.sounds.oceanWaves'), 
+      audioUrl: "https://www.soundjay.com/misc/sounds/ocean-waves.wav",
+      icon: "🌊"
+    },
+    {
+      id: "forest",
+      name: t('pages.sounds.forestBirds'),
+      audioUrl: "https://www.soundjay.com/misc/sounds/forest-birds.wav", 
+      icon: "🦜"
+    },
+    {
+      id: "wind",
+      name: t('pages.sounds.gentleWind'),
+      audioUrl: "https://www.soundjay.com/misc/sounds/wind-gentle.wav",
+      icon: "🍃"
+    },
+    {
+      id: "fireplace",
+      name: t('pages.sounds.cozyFireplace'),
+      audioUrl: "https://www.soundjay.com/misc/sounds/fireplace.wav",
+      icon: "🔥"
+    },
+    {
+      id: "meditation",
+      name: t('pages.sounds.singingBowls'),
+      audioUrl: "https://www.soundjay.com/misc/sounds/singing-bowl.wav",
+      icon: "🎵"
+    }
+  ];
 
   useEffect(() => {
     // Initialize audio elements
@@ -140,10 +181,10 @@ export const SoundscapePage = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 text-gradient-soul">
-            Peaceful Soundscapes
+            {t('pages.sounds.title')}
           </h1>
           <p className="text-lg text-muted-foreground">
-            Create your perfect ambient environment for relaxation and focus
+            {t('pages.sounds.subtitle')}
           </p>
         </div>
 
@@ -168,12 +209,12 @@ export const SoundscapePage = () => {
                     {isPlaying ? (
                       <>
                         <Pause className="w-4 h-4 mr-2" />
-                        Playing
+                        {t('pages.sounds.playing')}
                       </>
                     ) : (
                       <>
                         <Play className="w-4 h-4 mr-2" />
-                        Play
+                        {t('pages.sounds.play')}
                       </>
                     )}
                   </Button>
@@ -182,7 +223,7 @@ export const SoundscapePage = () => {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Volume2 className="w-4 h-4" />
-                        <span>Volume: {volume}%</span>
+                        <span>{t('pages.sounds.volume')}: {volume}%</span>
                       </div>
                       <Slider
                         value={[volume]}
@@ -202,10 +243,10 @@ export const SoundscapePage = () => {
         {playingTracks.size > 0 && (
           <div className="text-center">
             <Button onClick={stopAllTracks} variant="outline" size="lg">
-              Stop All Sounds
+              {t('pages.sounds.stopAllSounds')}
             </Button>
             <p className="text-sm text-muted-foreground mt-2">
-              {playingTracks.size} track{playingTracks.size !== 1 ? 's' : ''} playing
+              {t('pages.sounds.tracksPlaying', { count: playingTracks.size !== 1 ? 's' : '' })}
             </p>
           </div>
         )}

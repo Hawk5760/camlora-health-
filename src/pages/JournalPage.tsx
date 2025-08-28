@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Heart, Star, Lightbulb, Sunset, Coffee } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from 'react-i18next';
 
 interface JournalEntry {
   id: string;
@@ -23,41 +24,42 @@ export const JournalPage = () => {
   const [customTags, setCustomTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const journalPrompts = [
     {
       id: "gratitude",
       icon: Heart,
-      title: "Gratitude Practice",
-      prompt: "What are three things you're grateful for today, and why do they matter to you?",
+      title: t('journalPrompts.gratitudePractice'),
+      prompt: t('journalPrompts.gratitudePrompt'),
       color: "text-pink-500"
     },
     {
       id: "reflection",
       icon: Star,
-      title: "Daily Reflection",
-      prompt: "What was the highlight of your day? What would you do differently?",
+      title: t('journalPrompts.dailyReflection'),
+      prompt: t('journalPrompts.dailyReflectionPrompt'),
       color: "text-yellow-500"
     },
     {
       id: "growth",
       icon: Lightbulb,
-      title: "Personal Growth",
-      prompt: "What did you learn about yourself today? How did you grow as a person?",
+      title: t('journalPrompts.personalGrowth'),
+      prompt: t('journalPrompts.personalGrowthPrompt'),
       color: "text-blue-500"
     },
     {
       id: "dreams",
       icon: Sunset,
-      title: "Dreams & Aspirations",
-      prompt: "What dreams are calling to your heart? What steps can you take toward them?",
+      title: t('journalPrompts.dreamsAspirations'),
+      prompt: t('journalPrompts.dreamsAspirationsPrompt'),
       color: "text-purple-500"
     },
     {
       id: "present",
       icon: Coffee,
-      title: "Present Moment",
-      prompt: "Describe this moment in detail. What do you see, hear, feel, and sense around you?",
+      title: t('journalPrompts.presentMoment'),
+      prompt: t('journalPrompts.presentMomentPrompt'),
       color: "text-green-500"
     }
   ];
@@ -84,8 +86,8 @@ export const JournalPage = () => {
   const handleSaveEntry = () => {
     if (!title.trim() || !content.trim()) {
       toast({
-        title: "Please fill in all fields",
-        description: "Add a title and some content to save your journal entry.",
+        title: t('pages.journal.pleaseFillFields'),
+        description: t('pages.journal.pleaseFillFieldsDesc'),
         variant: "destructive",
       });
       return;
@@ -115,8 +117,8 @@ export const JournalPage = () => {
     localStorage.setItem("gardenStats", JSON.stringify(newStats));
 
     toast({
-      title: "Journal entry saved! 📖",
-      description: "Your thoughts are now part of your soul garden's growth.",
+      title: t('pages.journal.entrySaved'),
+      description: t('pages.journal.entrySavedDesc'),
     });
 
     // Reset form
@@ -133,10 +135,10 @@ export const JournalPage = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 text-gradient-soul">
-            Guided Journaling
+            {t('pages.journal.title')}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Explore your inner world through mindful writing
+            {t('pages.journal.subtitle')}
           </p>
         </div>
 
@@ -146,7 +148,7 @@ export const JournalPage = () => {
             <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" />
-                Choose a Prompt
+                {t('pages.journal.choosePrompt')}
               </h3>
               
               <div className="space-y-3">
@@ -183,13 +185,13 @@ export const JournalPage = () => {
               <Button
                 onClick={() => {
                   setSelectedPrompt("");
-                  setTitle("Free Writing - " + new Date().toLocaleDateString());
+                  setTitle(t('pages.journal.freeWriting') + " - " + new Date().toLocaleDateString());
                   setContent("");
                 }}
                 variant="outline"
                 className="w-full mt-4"
               >
-                Free Writing
+                {t('pages.journal.freeWriting')}
               </Button>
             </Card>
           </div>
@@ -200,7 +202,7 @@ export const JournalPage = () => {
               {selectedPromptData && (
                 <div className="mb-6 p-4 bg-primary/10 rounded-xl">
                   <Badge variant="secondary" className="mb-2">
-                    Current prompt: {selectedPromptData.title}
+                    {t('pages.journal.currentPrompt')} {selectedPromptData.title}
                   </Badge>
                   <p className="text-sm text-muted-foreground">
                     {selectedPromptData.prompt}
@@ -212,12 +214,12 @@ export const JournalPage = () => {
                 {/* Title */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Entry Title
+                    {t('pages.journal.entryTitle')}
                   </label>
                   <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Give your entry a meaningful title..."
+                    placeholder={t('pages.journal.titlePlaceholder')}
                     className="bg-background/50 border-border/50 focus:border-primary"
                   />
                 </div>
@@ -225,12 +227,12 @@ export const JournalPage = () => {
                 {/* Content */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Your Thoughts
+                    {t('pages.journal.yourThoughts')}
                   </label>
                   <Textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Let your thoughts flow freely..."
+                    placeholder={t('pages.journal.thoughtsPlaceholder')}
                     className="bg-background/50 border-border/50 focus:border-primary min-h-64"
                     rows={12}
                   />
@@ -239,7 +241,7 @@ export const JournalPage = () => {
                 {/* Tags */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Tags
+                    {t('pages.journal.tags')}
                   </label>
                   
                   {/* Predefined Tags */}
@@ -267,7 +269,7 @@ export const JournalPage = () => {
                     <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
-                      placeholder="Add custom tag..."
+                      placeholder={t('pages.journal.addCustomTag')}
                       className="bg-background/50 border-border/50 focus:border-primary"
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
@@ -281,7 +283,7 @@ export const JournalPage = () => {
                       variant="outline"
                       size="sm"
                     >
-                      Add
+                      {t('pages.journal.add')}
                     </Button>
                   </div>
 
@@ -309,7 +311,7 @@ export const JournalPage = () => {
                   size="lg" 
                   className="w-full"
                 >
-                  Save Entry 📖
+                  {t('pages.journal.saveEntry')}
                 </Button>
               </div>
             </Card>

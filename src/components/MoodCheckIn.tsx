@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Smile, Meh, Frown, Heart, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from 'react-i18next';
 
 interface MoodEntry {
   mood: string;
@@ -15,13 +16,14 @@ export const MoodCheckIn = () => {
   const [selectedMood, setSelectedMood] = useState<string>("");
   const [note, setNote] = useState("");
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const moods = [
-    { id: "great", icon: Star, label: "Amazing", color: "text-yellow-500" },
-    { id: "good", icon: Smile, label: "Good", color: "text-green-500" },
-    { id: "okay", icon: Meh, label: "Okay", color: "text-blue-500" },
-    { id: "sad", icon: Frown, label: "Sad", color: "text-purple-500" },
-    { id: "anxious", icon: Heart, label: "Anxious", color: "text-pink-500" },
+    { id: "great", icon: Star, label: t('moodCheckIn.amazing'), color: "text-yellow-500" },
+    { id: "good", icon: Smile, label: t('moodCheckIn.good'), color: "text-green-500" },
+    { id: "okay", icon: Meh, label: t('moodCheckIn.okay'), color: "text-blue-500" },
+    { id: "sad", icon: Frown, label: t('moodCheckIn.sad'), color: "text-purple-500" },
+    { id: "anxious", icon: Heart, label: t('moodCheckIn.anxious'), color: "text-pink-500" },
   ];
 
   const handleMoodSubmit = () => {
@@ -29,8 +31,8 @@ export const MoodCheckIn = () => {
     
     if (!selectedMood) {
       toast({
-        title: "Please select a mood",
-        description: "Choose how you're feeling today to continue.",
+        title: t('moodCheckIn.pleaseSelectMood'),
+        description: t('moodCheckIn.pleaseSelectMoodDesc'),
         variant: "destructive",
       });
       return;
@@ -48,8 +50,8 @@ export const MoodCheckIn = () => {
     localStorage.setItem("moodEntries", JSON.stringify(existingEntries));
 
     toast({
-      title: "Mood logged! 🌱",
-      description: "Your soul garden appreciates your mindfulness.",
+      title: t('moodCheckIn.moodLogged'),
+      description: t('moodCheckIn.moodLoggedDesc'),
     });
 
     // Reset form
@@ -61,10 +63,10 @@ export const MoodCheckIn = () => {
     <Card className="p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-semibold mb-3 text-foreground">
-          How are you feeling today?
+          {t('moodCheckIn.title')}
         </h2>
         <p className="text-muted-foreground">
-          Check in with yourself and let your soul garden know how you're doing.
+          {t('moodCheckIn.subtitle')}
         </p>
       </div>
 
@@ -94,12 +96,12 @@ export const MoodCheckIn = () => {
       {/* Note Section */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-foreground mb-3">
-          What's on your mind? (Optional)
+          {t('moodCheckIn.whatsOnMind')}
         </label>
         <Textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Share what you're feeling or what happened today..."
+          placeholder={t('moodCheckIn.placeholder')}
           className="bg-background/50 border-border/50 focus:border-primary transition-gentle"
           rows={4}
         />
@@ -112,7 +114,7 @@ export const MoodCheckIn = () => {
         size="lg" 
         className="w-full"
       >
-        Log My Mood 🌱
+        {t('moodCheckIn.logMood')}
       </Button>
     </Card>
   );

@@ -13,6 +13,7 @@ import {
   Target,
   Volume2
 } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 interface MoodEntry {
   mood: string;
@@ -48,6 +49,7 @@ export const DashboardPage = () => {
   const [breathingSessions, setBreathingSessions] = useState<BreathingSession[]>([]);
   const [soundscapeSessions, setSoundscapeSessions] = useState<SoundscapeSession[]>([]);
   const [gardenStats, setGardenStats] = useState<any>({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Load data from localStorage
@@ -156,10 +158,10 @@ export const DashboardPage = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 text-gradient-soul">
-            Your Wellness Dashboard
+            {t('pages.dashboard.title')}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Track your journey and celebrate your growth
+            {t('pages.dashboard.subtitle')}
           </p>
         </div>
 
@@ -168,65 +170,65 @@ export const DashboardPage = () => {
           <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
             <div className="flex items-center gap-3 mb-2">
               <Heart className="w-6 h-6 text-pink-500" />
-              <h3 className="font-semibold">Mood Entries</h3>
+              <h3 className="font-semibold">{t('pages.dashboard.moodEntries')}</h3>
             </div>
             <div className="text-2xl font-bold text-foreground">
               {gardenStats.moodEntries || 0}
             </div>
             <p className="text-sm text-muted-foreground">
-              {weeklyStats.moods} this week
+              {weeklyStats.moods} {t('pages.dashboard.thisWeek')}
             </p>
           </Card>
 
           <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
             <div className="flex items-center gap-3 mb-2">
               <BookOpen className="w-6 h-6 text-blue-500" />
-              <h3 className="font-semibold">Journal Entries</h3>
+              <h3 className="font-semibold">{t('pages.dashboard.journalEntries')}</h3>
             </div>
             <div className="text-2xl font-bold text-foreground">
               {gardenStats.journalEntries || 0}
             </div>
             <p className="text-sm text-muted-foreground">
-              {weeklyStats.journals} this week
+              {weeklyStats.journals} {t('pages.dashboard.thisWeek')}
             </p>
           </Card>
 
           <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
             <div className="flex items-center gap-3 mb-2">
               <Wind className="w-6 h-6 text-green-500" />
-              <h3 className="font-semibold">Mindful Minutes</h3>
+              <h3 className="font-semibold">{t('pages.dashboard.mindfulMinutes')}</h3>
             </div>
             <div className="text-2xl font-bold text-foreground">
               {gardenStats.mindfulMinutes || 0}
             </div>
             <p className="text-sm text-muted-foreground">
-              {weeklyStats.minutes} this week
+              {weeklyStats.minutes} {t('pages.dashboard.thisWeek')}
             </p>
           </Card>
 
           <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
             <div className="flex items-center gap-3 mb-2">
               <Volume2 className="w-6 h-6 text-orange-500" />
-              <h3 className="font-semibold">Soundscape Sessions</h3>
+              <h3 className="font-semibold">{t('pages.dashboard.soundscapeSessions')}</h3>
             </div>
             <div className="text-2xl font-bold text-foreground">
               {soundscapeSessions.length}
             </div>
             <p className="text-sm text-muted-foreground">
-              {weeklyStats.soundscapes} this week
+              {weeklyStats.soundscapes} {t('pages.dashboard.thisWeek')}
             </p>
           </Card>
 
           <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
             <div className="flex items-center gap-3 mb-2">
               <Target className="w-6 h-6 text-purple-500" />
-              <h3 className="font-semibold">Garden Level</h3>
+              <h3 className="font-semibold">{t('pages.dashboard.gardenLevel')}</h3>
             </div>
             <div className="text-2xl font-bold text-foreground">
               {gardenStats.level || 1}
             </div>
             <p className="text-sm text-muted-foreground">
-              {Math.floor((gardenStats.totalActions || 0) / 10)} actions completed
+              {Math.floor((gardenStats.totalActions || 0) / 10)} {t('pages.dashboard.actionsCompleted')}
             </p>
           </Card>
         </div>
@@ -237,7 +239,7 @@ export const DashboardPage = () => {
             <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <CalendarIcon className="w-5 h-5" />
-                Activity Calendar
+               {t('pages.dashboard.activityCalendar')}
               </h3>
               
               <Calendar
@@ -255,7 +257,7 @@ export const DashboardPage = () => {
               
               <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
                 <div className="w-3 h-3 bg-primary rounded-full"></div>
-                <span>Days with activity</span>
+               <span>{t('pages.dashboard.daysWithActivity')}</span>
               </div>
             </Card>
           </div>
@@ -266,7 +268,7 @@ export const DashboardPage = () => {
             <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
-                Mood Trend
+                {t('pages.dashboard.moodTrend')}
               </h3>
               
               <div className="text-center">
@@ -281,17 +283,17 @@ export const DashboardPage = () => {
                   variant={moodTrend === "improving" ? "default" : "secondary"}
                   className="mb-2"
                 >
-                  {moodTrend.charAt(0).toUpperCase() + moodTrend.slice(1)}
+                  {t(`pages.dashboard.${moodTrend}`)}
                 </Badge>
                 <p className="text-sm text-muted-foreground">
-                  Based on your recent mood entries
+                  {t('pages.dashboard.basedOnRecent')}
                 </p>
               </div>
             </Card>
 
             {/* Recent Moods */}
             <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-              <h3 className="text-lg font-semibold mb-4">Recent Moods</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('pages.dashboard.recentMoods')}</h3>
               
               <div className="space-y-3">
                 {moodEntries.slice(-5).reverse().map((entry, index) => (
@@ -308,7 +310,7 @@ export const DashboardPage = () => {
                 
                 {moodEntries.length === 0 && (
                   <p className="text-sm text-muted-foreground text-center py-4">
-                    No mood entries yet. Start checking in with yourself!
+                    {t('pages.dashboard.noMoodEntries')}
                   </p>
                 )}
               </div>
@@ -320,14 +322,14 @@ export const DashboardPage = () => {
         <Card className="p-6 mt-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <BarChart3 className="w-5 h-5" />
-            Detailed Analytics
+            {t('pages.dashboard.detailedAnalytics')}
           </h3>
           
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="moods">Moods</TabsTrigger>
-              <TabsTrigger value="activities">Activities</TabsTrigger>
+              <TabsTrigger value="overview">{t('pages.dashboard.overview')}</TabsTrigger>
+              <TabsTrigger value="moods">{t('pages.dashboard.moods')}</TabsTrigger>
+              <TabsTrigger value="activities">{t('pages.dashboard.activities')}</TabsTrigger>
             </TabsList>
             
             <TabsContent value="overview" className="mt-6">
@@ -336,19 +338,19 @@ export const DashboardPage = () => {
                   <div className="text-2xl font-bold text-primary mb-2">
                     {Math.round(((gardenStats.totalActions || 0) / 100) * 100)}%
                   </div>
-                  <p className="text-sm text-muted-foreground">Garden Growth</p>
+                  <p className="text-sm text-muted-foreground">{t('pages.dashboard.gardenGrowth')}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-green-500 mb-2">
                     {activityDays.length}
                   </div>
-                  <p className="text-sm text-muted-foreground">Active Days</p>
+                  <p className="text-sm text-muted-foreground">{t('pages.dashboard.activeDays')}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-500 mb-2">
                     {Math.round((gardenStats.mindfulMinutes || 0) / 60 * 10) / 10}
                   </div>
-                  <p className="text-sm text-muted-foreground">Hours Meditated</p>
+                  <p className="text-sm text-muted-foreground">{t('pages.dashboard.hoursMeditated')}</p>
                 </div>
               </div>
             </TabsContent>
@@ -375,19 +377,19 @@ export const DashboardPage = () => {
             <TabsContent value="activities" className="mt-6">
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-4 bg-muted/30 rounded-lg">
-                  <span>Total Mindful Actions</span>
+                  <span>{t('pages.dashboard.totalMindfulActions')}</span>
                   <Badge variant="secondary">{gardenStats.totalActions || 0}</Badge>
                 </div>
                 <div className="flex justify-between items-center p-4 bg-muted/30 rounded-lg">
-                  <span>Breathing Sessions</span>
+                  <span>{t('pages.dashboard.breathingSessions')}</span>
                   <Badge variant="secondary">{breathingSessions.length}</Badge>
                 </div>
                 <div className="flex justify-between items-center p-4 bg-muted/30 rounded-lg">
-                  <span>Soundscape Sessions</span>
+                  <span>{t('pages.dashboard.soundscapeSessions')}</span>
                   <Badge variant="secondary">{soundscapeSessions.length}</Badge>
                 </div>
                 <div className="flex justify-between items-center p-4 bg-muted/30 rounded-lg">
-                  <span>Consecutive Days</span>
+                  <span>{t('pages.dashboard.consecutiveDays')}</span>
                   <Badge variant="secondary">{activityDays.length >= 7 ? "7+" : activityDays.length}</Badge>
                 </div>
               </div>

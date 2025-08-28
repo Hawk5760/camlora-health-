@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Moon, Play, Pause, RotateCcw, Timer, Waves, Wind } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 const useSEO = (title: string, description: string, canonicalPath = "/sleep") => {
   useEffect(() => {
@@ -35,6 +36,7 @@ interface SleepSession {
 
 export const SleepZonePage = () => {
   useSEO("Sleep Zone | Calmora", "Wind down with a gentle sleep timer and soothing ambient sounds.");
+  const { t } = useTranslation();
 
   const [duration, setDuration] = useState(30); // minutes
   const [remaining, setRemaining] = useState(30 * 60); // seconds
@@ -179,26 +181,26 @@ export const SleepZonePage = () => {
     <main className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gradient-soul">Sleep Zone</h1>
-          <p className="text-muted-foreground mt-2">A gentle place to wind down with a sleep timer and soothing ambience</p>
+          <h1 className="text-4xl font-bold text-gradient-soul">{t('pages.sleep.title')}</h1>
+          <p className="text-muted-foreground mt-2">{t('pages.sleep.subtitle')}</p>
         </header>
 
         <div className="grid md:grid-cols-2 gap-6">
           <Card className="p-6 bg-card/80 backdrop-blur-sm">
             <div className="flex items-center gap-2 mb-4">
               <Timer className="w-5 h-5 text-primary" />
-              <h2 className="font-semibold">Sleep Timer</h2>
+              <h2 className="font-semibold">{t('pages.sleep.sleepTimer')}</h2>
             </div>
 
             <div className="text-center mb-4">
               <div className="text-5xl font-bold tracking-wider">{mm}:{ss}</div>
-              <p className="text-sm text-muted-foreground">Duration: {duration} min</p>
+              <p className="text-sm text-muted-foreground">{t('pages.sleep.duration')}: {duration} {t('pages.sleep.min')}</p>
             </div>
 
             <div className="grid grid-cols-4 gap-2 mb-4">
               {[15, 30, 45, 60].map(d => (
                 <Button key={d} variant={duration===d?"soul":"outline"} onClick={() => { setDuration(d); setRemaining(d*60); }}>
-                  {d}m
+                  {d}{t('pages.sleep.min')}
                 </Button>
               ))}
             </div>
@@ -206,11 +208,11 @@ export const SleepZonePage = () => {
             <div className="flex items-center gap-2">
               {running ? (
                 <Button onClick={pause} className="flex-1">
-                  <Pause className="w-4 h-4 mr-2"/> Pause
+                  <Pause className="w-4 h-4 mr-2"/> {t('pages.sleep.pause')}
                 </Button>
               ) : (
                 <Button onClick={start} className="flex-1">
-                  <Play className="w-4 h-4 mr-2"/> Start
+                  <Play className="w-4 h-4 mr-2"/> {t('pages.sleep.start')}
                 </Button>
               )}
               <Button variant="outline" onClick={reset}>
@@ -222,22 +224,22 @@ export const SleepZonePage = () => {
           <Card className="p-6 bg-card/80 backdrop-blur-sm">
             <div className="flex items-center gap-2 mb-4">
               <Moon className="w-5 h-5 text-primary" />
-              <h2 className="font-semibold">Sleep Ambience</h2>
+              <h2 className="font-semibold">{t('pages.sleep.sleepAmbience')}</h2>
             </div>
 
             <div className="space-y-3 mb-4">
               <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30">
-                <div className="flex items-center gap-2"><Waves className="w-4 h-4"/> Soft Waves</div>
-                <Button variant={wavesOn?"soul":"outline"} size="sm" onClick={toggleWaves}>{wavesOn?"Stop":"Play"}</Button>
+                <div className="flex items-center gap-2"><Waves className="w-4 h-4"/> {t('pages.sleep.softWaves')}</div>
+                <Button variant={wavesOn?"soul":"outline"} size="sm" onClick={toggleWaves}>{wavesOn?t('pages.sleep.stop'):t('pages.sleep.play')}</Button>
               </div>
               <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30">
-                <div className="flex items-center gap-2"><Wind className="w-4 h-4"/> Gentle Wind</div>
-                <Button variant={windOn?"soul":"outline"} size="sm" onClick={toggleWind}>{windOn?"Stop":"Play"}</Button>
+                <div className="flex items-center gap-2"><Wind className="w-4 h-4"/> {t('pages.sleep.gentleWind')}</div>
+                <Button variant={windOn?"soul":"outline"} size="sm" onClick={toggleWind}>{windOn?t('pages.sleep.stop'):t('pages.sleep.play')}</Button>
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">Volume: {volume}%</div>
+              <div className="text-sm text-muted-foreground">{t('pages.sleep.volume')}: {volume}%</div>
               <Slider value={[volume]} max={100} step={1} onValueChange={v => setMasterVolume(v[0])} />
             </div>
           </Card>

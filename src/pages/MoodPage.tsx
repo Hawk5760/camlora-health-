@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Music, Heart, Sparkles, Send, Mic, MicOff, Brain } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from 'react-i18next';
 
 interface MoodEntry {
   mood: string;
@@ -34,6 +35,7 @@ export const MoodPage = () => {
   const [moodConfidence, setMoodConfidence] = useState<number>(0);
   const [isUsingAI, setIsUsingAI] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const songs: Song[] = [
     // Happy/Joyful songs
@@ -403,8 +405,8 @@ export const MoodPage = () => {
   const handleAnalyzeInput = async () => {
     if (!userInput.trim()) {
       toast({
-        title: "Please share something",
-        description: "Tell me what's on your mind so I can understand how you're feeling.",
+        title: t('pages.mood.pleaseSomething'),
+        description: t('pages.mood.pleaseSomethingDesc'),
         variant: "destructive",
       });
       return;
@@ -501,10 +503,10 @@ export const MoodPage = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 text-gradient-soul">
-            Tell me what's on your mind
+            {t('pages.mood.title')}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Share your thoughts and I'll understand how you're feeling, then we can chat like friends 💝
+            {t('pages.mood.subtitle')}
           </p>
         </div>
 
@@ -514,7 +516,7 @@ export const MoodPage = () => {
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <label className="text-lg font-semibold text-foreground">
-                  What's happening in your world today?
+                  {t('pages.mood.whatsHappening')}
                 </label>
                 <Button
                   onClick={handleVoiceToggle}
@@ -523,14 +525,14 @@ export const MoodPage = () => {
                   className="flex items-center gap-2"
                 >
                   {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                  {isRecording ? "Stop Recording" : "Voice Note"}
+                  {isRecording ? t('pages.mood.stopRecording') : t('pages.mood.voiceNote')}
                 </Button>
               </div>
               
               <Textarea
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
-                placeholder="Tell me anything that's on your mind... your day, your feelings, your thoughts, your dreams, your worries... I'm here to listen and understand 💙"
+                placeholder={t('pages.mood.placeholder')}
                 className="bg-background/50 border-border/50 focus:border-primary transition-gentle min-h-40"
                 rows={8}
               />
@@ -538,7 +540,7 @@ export const MoodPage = () => {
               {isRecording && (
                 <div className="mt-4 flex items-center justify-center gap-2 text-primary">
                   <div className="animate-pulse w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-sm">Recording... I'm listening to your voice</span>
+                  <span className="text-sm">{t('pages.mood.recording')}</span>
                 </div>
               )}
             </div>
@@ -553,12 +555,12 @@ export const MoodPage = () => {
               {isAnalyzing ? (
                 <>
                   <div className="animate-spin w-4 h-4 border-2 border-background border-t-transparent rounded-full mr-2"></div>
-                  Understanding your feelings...
+                  {t('pages.mood.understandingFeelings')}
                 </>
               ) : (
                 <>
                   <Send className="w-5 h-5 mr-2" />
-                  Share with Calmora 💝
+                  {t('pages.mood.shareWithCalmora')}
                 </>
               )}
             </Button>
@@ -575,10 +577,10 @@ export const MoodPage = () => {
                   ) : (
                     <Sparkles className="w-5 h-5 text-primary" />
                   )}
-                  <span className="font-semibold text-foreground">I sense you're feeling:</span>
+                  <span className="font-semibold text-foreground">{t('pages.mood.iSenseFeeling')}</span>
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  {isUsingAI ? `🧠 AI Detection (${moodConfidence}% confident)` : `🌿 Local Detection (${moodConfidence}% confident)`}
+                  {isUsingAI ? `${t('pages.mood.aiDetection')} (${moodConfidence}% ${t('pages.mood.confident')})` : `${t('pages.mood.localDetection')} (${moodConfidence}% ${t('pages.mood.confident')})`}
                 </div>
               </div>
               <Badge variant="secondary" className="text-lg py-2 px-4 capitalize">
@@ -593,7 +595,7 @@ export const MoodPage = () => {
                   <Heart className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-foreground mb-3">Calmora says:</h3>
+                  <h3 className="font-semibold text-foreground mb-3">{t('pages.mood.calmoraSays')}</h3>
                   <p className="text-foreground leading-relaxed text-lg">
                     {aiResponse}
                   </p>
@@ -606,7 +608,7 @@ export const MoodPage = () => {
               <Card className="p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
                 <div className="flex items-center gap-3 mb-6">
                   <Music className="w-6 h-6 text-primary" />
-                  <h3 className="text-xl font-semibold text-foreground">Songs I think you'll love right now:</h3>
+                  <h3 className="text-xl font-semibold text-foreground">{t('pages.mood.songsYoullLove')}</h3>
                 </div>
                 
                 <div className="grid gap-4">
@@ -641,7 +643,7 @@ export const MoodPage = () => {
                 size="lg"
                 className="min-w-48"
               >
-                Share Something New 💭
+                {t('pages.mood.shareSomethingNew')}
               </Button>
             </div>
           </div>

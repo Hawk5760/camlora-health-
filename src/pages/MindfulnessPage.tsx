@@ -5,6 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Wind, Play, Pause, RotateCcw, Heart, Brain, Moon, Focus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from 'react-i18next';
 
 interface BreathingSession {
   id: string;
@@ -21,37 +22,38 @@ export const MindfulnessPage = () => {
   const [selectedPattern, setSelectedPattern] = useState("calm");
   const [completedMinutes, setCompletedMinutes] = useState(0);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const breathingPatterns = [
     {
       id: "calm",
-      name: "Calm Breathing",
+      name: t('breathingPatterns.calmBreathing'),
       icon: Wind,
-      description: "4-4-4-4 pattern for general relaxation",
+      description: t('breathingPatterns.calmBreathingDesc'),
       pattern: { inhale: 4, hold: 4, exhale: 4, pause: 4 },
       color: "text-blue-500"
     },
     {
       id: "stress",
-      name: "Stress Relief",
+      name: t('breathingPatterns.stressRelief'),
       icon: Heart,
-      description: "4-7-8 pattern to reduce anxiety",
+      description: t('breathingPatterns.stressReliefDesc'),
       pattern: { inhale: 4, hold: 7, exhale: 8, pause: 2 },
       color: "text-green-500"
     },
     {
       id: "focus",
-      name: "Focus Enhancement",
+      name: t('breathingPatterns.focusEnhancement'),
       icon: Brain,
-      description: "6-2-6-2 pattern for concentration",
+      description: t('breathingPatterns.focusEnhancementDesc'),
       pattern: { inhale: 6, hold: 2, exhale: 6, pause: 2 },
       color: "text-purple-500"
     },
     {
       id: "sleep",
-      name: "Sleep Preparation",
+      name: t('breathingPatterns.sleepPreparation'),
       icon: Moon,
-      description: "4-4-6-2 pattern for better sleep",
+      description: t('breathingPatterns.sleepPreparationDesc'),
       pattern: { inhale: 4, hold: 4, exhale: 6, pause: 2 },
       color: "text-indigo-500"
     }
@@ -97,8 +99,8 @@ export const MindfulnessPage = () => {
     setCompletedMinutes(0);
     
     toast({
-      title: "Breathing session started",
-      description: `${sessionDuration[0]} minutes of ${selectedPatternData.name}`,
+      title: t('pages.mindfulness.sessionStarted'),
+      description: `${sessionDuration[0]} ${t('pages.mindfulness.minutes')} of ${selectedPatternData.name}`,
     });
   };
 
@@ -143,8 +145,8 @@ export const MindfulnessPage = () => {
     localStorage.setItem("gardenStats", JSON.stringify(newStats));
 
     toast({
-      title: "Session complete! 🧘‍♀️",
-      description: `You've completed ${minutes} minutes of mindful breathing.`,
+      title: t('pages.mindfulness.sessionComplete'),
+      description: t('pages.mindfulness.sessionCompleteDesc', { minutes }),
     });
   };
 
@@ -156,10 +158,10 @@ export const MindfulnessPage = () => {
 
   const getPhaseInstruction = () => {
     const instructions = {
-      inhale: "Breathe in slowly...",
-      hold: "Hold your breath...",
-      exhale: "Breathe out gently...",
-      pause: "Rest and pause..."
+      inhale: t('pages.mindfulness.breatheInSlowly'),
+      hold: t('pages.mindfulness.holdYourBreath'),
+      exhale: t('pages.mindfulness.breatheOutGently'),
+      pause: t('pages.mindfulness.restAndPause')
     };
     return instructions[currentPhase];
   };
@@ -179,10 +181,10 @@ export const MindfulnessPage = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 text-gradient-soul">
-            Mindfulness & Breathing
+            {t('pages.mindfulness.title')}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Find your center through guided breathing exercises
+            {t('pages.mindfulness.subtitle')}
           </p>
         </div>
 
@@ -192,7 +194,7 @@ export const MindfulnessPage = () => {
             <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <Wind className="w-5 h-5" />
-                Breathing Patterns
+                {t('pages.mindfulness.breathingPatterns')}
               </h3>
               
               <div className="space-y-3">
@@ -230,12 +232,12 @@ export const MindfulnessPage = () => {
 
             {/* Session Settings */}
             <Card className="p-6 mt-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-              <h3 className="text-lg font-semibold mb-4">Session Settings</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('pages.mindfulness.sessionSettings')}</h3>
               
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Duration: {sessionDuration[0]} minutes
+                    {t('pages.mindfulness.duration')}: {sessionDuration[0]} {t('pages.mindfulness.minutes')}
                   </label>
                   <Slider
                     value={sessionDuration}
@@ -249,7 +251,7 @@ export const MindfulnessPage = () => {
                 </div>
                 
                 <div className="text-sm text-muted-foreground">
-                  Pattern: {selectedPatternData.pattern.inhale}-{selectedPatternData.pattern.hold}-{selectedPatternData.pattern.exhale}-{selectedPatternData.pattern.pause}
+                  {t('pages.mindfulness.pattern')}: {selectedPatternData.pattern.inhale}-{selectedPatternData.pattern.hold}-{selectedPatternData.pattern.exhale}-{selectedPatternData.pattern.pause}
                 </div>
               </div>
             </Card>
@@ -274,7 +276,7 @@ export const MindfulnessPage = () => {
                     {getPhaseInstruction()}
                   </h3>
                   <Badge variant="secondary" className="text-lg px-4 py-2">
-                    {currentPhase.charAt(0).toUpperCase() + currentPhase.slice(1)}
+                    {t(`pages.mindfulness.${currentPhase}`)}
                   </Badge>
                 </div>
 
@@ -284,7 +286,7 @@ export const MindfulnessPage = () => {
                     {formatTime(timeLeft)}
                   </div>
                   <p className="text-muted-foreground">
-                    {timeLeft > 0 ? "Time remaining" : "Ready to start"}
+                    {timeLeft > 0 ? t('pages.mindfulness.timeRemaining') : t('pages.mindfulness.readyToStart')}
                   </p>
                 </div>
 
@@ -298,7 +300,7 @@ export const MindfulnessPage = () => {
                       className="flex items-center gap-2"
                     >
                       <Play className="w-5 h-5" />
-                      Start Session
+                      {t('pages.mindfulness.startSession')}
                     </Button>
                   )}
                   
@@ -310,7 +312,7 @@ export const MindfulnessPage = () => {
                       className="flex items-center gap-2"
                     >
                       <Pause className="w-5 h-5" />
-                      Pause
+                      {t('pages.mindfulness.pauseSession')}
                     </Button>
                   )}
                   
@@ -322,7 +324,7 @@ export const MindfulnessPage = () => {
                       className="flex items-center gap-2"
                     >
                       <Play className="w-5 h-5" />
-                      Resume
+                      {t('pages.mindfulness.resume')}
                     </Button>
                   )}
                   
@@ -334,7 +336,7 @@ export const MindfulnessPage = () => {
                       className="flex items-center gap-2"
                     >
                       <RotateCcw className="w-5 h-5" />
-                      Stop
+                      {t('pages.mindfulness.stop')}
                     </Button>
                   )}
                 </div>
@@ -343,7 +345,7 @@ export const MindfulnessPage = () => {
                 {completedMinutes > 0 && (
                   <div className="mt-8 p-4 bg-primary/10 rounded-xl">
                     <p className="text-foreground">
-                      Minutes completed today: <span className="font-semibold">{completedMinutes}</span>
+                      {t('pages.mindfulness.minutesCompletedToday')} <span className="font-semibold">{completedMinutes}</span>
                     </p>
                   </div>
                 )}

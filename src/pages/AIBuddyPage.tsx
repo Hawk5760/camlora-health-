@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Send, Sparkles, MessageCircle, Trash2, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from 'react-i18next';
 
 interface ChatMessage {
   id: string;
@@ -98,6 +99,7 @@ const storageKey = "aiBuddyChat";
 export const AIBuddyPage = () => {
   useSEO("AI Buddy | Calmora", "Chat with a gentle AI buddy for support, reflection, and mindfulness.");
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     const saved = localStorage.getItem(storageKey);
@@ -189,19 +191,19 @@ export const AIBuddyPage = () => {
     <main className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gradient-soul">AI Reflection Buddy</h1>
-          <p className="text-muted-foreground mt-2">Gentle guidance, reflective prompts, and supportive chat</p>
+          <h1 className="text-4xl font-bold text-gradient-soul">{t('pages.chat.title')}</h1>
+          <p className="text-muted-foreground mt-2">{t('pages.chat.subtitle')}</p>
         </header>
 
         <Card className="p-4 md:p-6 bg-card/80 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <MessageCircle className="w-5 h-5 text-primary" />
-              <span className="font-medium">Conversation</span>
-              <Badge variant="secondary">{messages.length} msgs</Badge>
+              <span className="font-medium">{t('pages.chat.conversation')}</span>
+              <Badge variant="secondary">{messages.length} {t('pages.chat.msgs')}</Badge>
             </div>
             <Button variant="ghost" size="sm" onClick={clearChat}>
-              <Trash2 className="w-4 h-4 mr-2" /> Clear
+              <Trash2 className="w-4 h-4 mr-2" /> {t('pages.chat.clear')}
             </Button>
           </div>
 
@@ -209,17 +211,17 @@ export const AIBuddyPage = () => {
             {messages.length === 0 && (
               <div className="text-center text-muted-foreground py-20">
                 <Sparkles className="w-6 h-6 mx-auto mb-2" />
-                Say hello or pick a quick prompt below to start.
-              </div>
+                {t('pages.chat.sayHello')}
+               placeholder={t('pages.chat.shareOnMind')}
             )}
 
             {messages.map(m => (
               <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm shadow-soft ${m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted/40'}`}>
                   {m.mood && m.role === 'ai' && (
-                    <div className="mb-1 text-xs opacity-80">Detected mood: <strong>{m.mood}</strong></div>
+                    <div className="mb-1 text-xs opacity-80">{t('pages.chat.detectedMood')} <strong>{m.mood}</strong></div>
                   )}
-                  <div>{m.text}</div>
+                 {isLoading ? t('pages.chat.thinking') : t('pages.chat.send')}
                 </div>
               </div>
             ))}

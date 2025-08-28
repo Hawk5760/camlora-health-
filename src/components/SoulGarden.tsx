@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Leaf, Flower, TreePine, Sparkles, Calendar, TrendingUp, Clock, BookOpen, Heart } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 interface GardenStats {
   totalActions: number;
@@ -32,6 +33,7 @@ export const SoulGarden = () => {
   });
   const [growthHistory, setGrowthHistory] = useState<HistoryEntry[]>([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Load stats from localStorage
@@ -166,10 +168,10 @@ export const SoulGarden = () => {
     <Card className="p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-semibold mb-3 text-foreground">
-          Your Soul Garden
+          {t('pages.garden.title')}
         </h2>
         <p className="text-muted-foreground">
-          Level {stats.level} • {stats.totalActions} mindful actions taken
+          {t('pages.garden.level')} {stats.level} • {stats.totalActions} {t('pages.garden.mindfulActions')}
         </p>
       </div>
 
@@ -190,7 +192,7 @@ export const SoulGarden = () => {
             <div className="text-center">
               <Leaf className="w-12 h-12 text-muted-foreground/50 mx-auto mb-2" />
               <p className="text-muted-foreground text-sm">
-                Your garden is waiting to bloom...
+                {t('pages.garden.gardenWaiting')}
               </p>
             </div>
           </div>
@@ -201,19 +203,19 @@ export const SoulGarden = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="text-center p-4 bg-primary/10 rounded-xl">
           <div className="text-2xl font-bold text-primary">{stats.moodEntries}</div>
-          <div className="text-xs text-muted-foreground">Mood Check-ins</div>
+          <div className="text-xs text-muted-foreground">{t('pages.garden.moodCheckins')}</div>
         </div>
         <div className="text-center p-4 bg-secondary/10 rounded-xl">
           <div className="text-2xl font-bold text-secondary">{stats.journalEntries}</div>
-          <div className="text-xs text-muted-foreground">Journal Entries</div>
+          <div className="text-xs text-muted-foreground">{t('pages.garden.journalEntries')}</div>
         </div>
         <div className="text-center p-4 bg-accent/10 rounded-xl">
           <div className="text-2xl font-bold text-accent">{stats.mindfulMinutes}</div>
-          <div className="text-xs text-muted-foreground">Mindful Minutes</div>
+          <div className="text-xs text-muted-foreground">{t('pages.garden.mindfulMinutes')}</div>
         </div>
         <div className="text-center p-4 bg-primary-glow/10 rounded-xl">
           <div className="text-2xl font-bold text-primary-glow">{stats.level}</div>
-          <div className="text-xs text-muted-foreground">Garden Level</div>
+          <div className="text-xs text-muted-foreground">{t('pages.garden.gardenLevel')}</div>
         </div>
       </div>
 
@@ -221,14 +223,14 @@ export const SoulGarden = () => {
         <DialogTrigger asChild>
           <Button variant="outline" className="hover:bg-primary/10">
             <TrendingUp className="w-4 h-4 mr-2" />
-            View Growth History
+            {t('pages.garden.viewGrowthHistory')}
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto" aria-labelledby="soul-garden-dialog-title">
           <DialogHeader>
             <DialogTitle id="soul-garden-dialog-title" className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
-              Your Growth Journey
+              {t('pages.garden.yourGrowthJourney')}
             </DialogTitle>
           </DialogHeader>
           
@@ -237,15 +239,15 @@ export const SoulGarden = () => {
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center p-3 bg-primary/5 rounded-lg">
                 <div className="text-lg font-semibold text-primary">{stats.totalActions}</div>
-                <div className="text-xs text-muted-foreground">Total Actions</div>
+                <div className="text-xs text-muted-foreground">{t('pages.garden.totalActions')}</div>
               </div>
               <div className="text-center p-3 bg-secondary/5 rounded-lg">
                 <div className="text-lg font-semibold text-secondary">{stats.level}</div>
-                <div className="text-xs text-muted-foreground">Current Level</div>
+                <div className="text-xs text-muted-foreground">{t('pages.garden.currentLevel')}</div>
               </div>
               <div className="text-center p-3 bg-accent/5 rounded-lg">
                 <div className="text-lg font-semibold text-accent">{growthHistory.length}</div>
-                <div className="text-xs text-muted-foreground">Activities</div>
+                <div className="text-xs text-muted-foreground">{t('pages.garden.activities')}</div>
               </div>
             </div>
 
@@ -257,10 +259,10 @@ export const SoulGarden = () => {
                 <div className="text-center py-12">
                   <Leaf className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                    No growth history yet
+                    {t('pages.garden.noGrowthHistory')}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Start your journey by checking your mood, writing in your journal, or practicing mindfulness!
+                    {t('pages.garden.noGrowthHistoryDesc')}
                   </p>
                 </div>
               ) : (
