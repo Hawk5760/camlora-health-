@@ -224,9 +224,9 @@ export const SoulGarden = () => {
             View Growth History
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto" aria-labelledby="soul-garden-dialog-title">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle id="soul-garden-dialog-title" className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
               Your Growth Journey
             </DialogTitle>
